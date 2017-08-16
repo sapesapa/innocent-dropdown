@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="innocent-dropdown">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `innocent-dropdown`
+     * An improved dropdown version, I guess...
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class InnocentDropdown extends Polymer.Element {
+      static get is() { return 'innocent-dropdown'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'innocent-dropdown'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(InnocentDropdown.is, InnocentDropdown);
+  </script>
+</dom-module>
