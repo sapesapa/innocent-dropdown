@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`innocent-dropdown`
+Just a normal dropdown element.
+
+@demo demo/index.html
+-->
+
+<dom-module id="innocent-dropdown">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'innocent-dropdown',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'innocent-dropdown',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
