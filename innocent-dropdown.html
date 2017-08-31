@@ -1,4 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 
 <!--
 `innocent-dropdown`
@@ -14,7 +17,33 @@ Just a normal dropdown element.
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <paper-dropdown-menu
+      always-float-label
+      allow-outside-scroll="[[allowOutsideScroll]]"
+      disabled="[[disabled]]"
+      dynamic-align="[[dynamicAlign]]"
+      error-message="[[errorMessage]]"
+      horizontal-align="[[horizontalAlign]]"
+      label="[[label]]"
+      no-animations="[[noAnimations]]"
+      opened="{{opened}}"
+      placeholder="[[placeholder]]"
+      restore-focus-on-close="[[restoreFocusOnClose]]"
+      selected-item="{{selectedItem}}"
+      selected-item-label="{{selectedItemLabel}}"
+      vertical-align="[[verticalAlign]]">
+      <paper-listbox
+        attr-for-selected="value"
+        slot="dropdown-content" 
+        selected="{{value}}">
+        <template is="dom-if" if="[[clearable]]">
+          <paper-item value="[[null]]">-</paper-item>
+        </template>
+        <template is="dom-repeat" items="[[items]]">
+          <paper-item value="[[item]]">[[item]]</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
   </template>
 
   <script>
@@ -23,12 +52,131 @@ Just a normal dropdown element.
       is: 'innocent-dropdown',
 
       properties: {
-        prop1: {
+        /**
+         * Disables the dropdown menu.
+         */
+        disabled: {
+          type: Boolean,
+          value: false,
+        },
+        /**
+         * The label for the dropdown.
+         */
+        label: String,
+        /**
+         * The placeholder for the dropdown.
+         */
+        placeholder: String,
+        /**
+         * The error message to display when invalid.
+         */
+        errorMessage: String,
+        /**
+         * The list of dropdown items.
+         */
+        items: Array,
+        /**
+         * Adds the dropdown option to clear a selected value.
+         */
+        clearable: {
+          type: Boolean,
+          value: false,
+        },
+        /**
+         * The value for this element that will be used when submitting in
+         * a form. It is read only, and will always have the same value
+         * as `selectedItemLabel`.
+         */
+        value: {
           type: String,
-          value: 'innocent-dropdown',
+          notify: true,
+          readOnly: true,
+        },
+        /**
+         * The derived "label" of the currently selected item. This value
+         * is the `label` property on the selected item if set, or else the
+         * trimmed text content of the selected item.
+         */
+        selectedItemLabel: {
+          type: String,
+          notify: true,
+          readOnly: true
+        },
+        /**
+         * The last selected item. An item is selected if the dropdown menu has
+         * a child with slot `dropdown-content`, and that child triggers an
+         * `iron-select` event with the selected `item` in the `detail`.
+         *
+         * @type {?Object}
+         */
+        selectedItem: {
+          type: Object,
+          notify: true,
+          readOnly: true
+        },
+        /**
+         * The orientation against which to align the menu dropdown
+         * horizontally relative to the dropdown trigger.
+         */
+        horizontalAlign: {
+          type: String,
+          value: 'right',
+        },
+        /**
+         * The orientation against which to align the menu dropdown
+         * vertically relative to the dropdown trigger.
+         */
+        verticalAlign: {
+          type: String,
+          value: 'top',
+        },
+        /**
+         * If true, the `horizontalAlign` and `verticalAlign` properties will
+         * be considered preferences instead of strict requirements when
+         * positioning the dropdown and may be changed if doing so reduces
+         * the area of the dropdown falling outside of `fitInto`.
+         */
+        dynamicAlign: {
+          type: Boolean,
+          value: true,
+        },
+        /**
+         * Set to true to disable animations when opening and closing the
+         * dropdown.
+         */
+        noAnimations: {
+          type: Boolean,
+          value: false,
+        },
+        /**
+         * True if the dropdown is open. Otherwise, false.
+         */
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        /**
+         * By default, the dropdown will constrain scrolling on the page
+         * to itself when opened.
+         * Set to true in order to prevent scroll from being constrained
+         * to the dropdown when it opens.
+         */
+        allowOutsideScroll: {
+          type: Boolean,
+          value: false,
+        },
+        /**
+         * Whether focus should be restored to the dropdown when the menu closes.
+         */
+        restoreFocusOnClose: {
+          type: Boolean,
+          value: true,
         },
       },
-
+      getValue: function() {
+        return this.value;
+      },
     });
   </script>
 </dom-module>

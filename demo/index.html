@@ -8,11 +8,16 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
+    <link rel="import" href="../../neon-animation/web-animations.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../innocent-dropdown.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
+      innocent-dropdown {
+        width: 250px;
+        margin: auto;
+      }
     </style>
   </head>
   <body>
@@ -20,9 +25,20 @@
       <h3>Basic innocent-dropdown demo</h3>
       <demo-snippet>
         <template>
-          <innocent-dropdown></innocent-dropdown>
+          <innocent-dropdown label="Animal" clearable></innocent-dropdown>
         </template>
       </demo-snippet>
     </div>
+    <script>
+      document.addEventListener('WebComponentsReady', function() {
+        var dropdowns = document.querySelectorAll('innocent-dropdown');
+        for (var i = 0; i < dropdowns.length; i++) {
+          dropdowns[i].items = ['Ant', 'Bat', 'Cat', 'Dog'];
+          dropdowns[i].addEventListener('value-changed', function() {
+            console.log(this.getValue());
+          });
+        }
+      });
+    </script>
   </body>
 </html>
